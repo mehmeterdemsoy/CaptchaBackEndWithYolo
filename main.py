@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from detection import run_yolo_detection, run_spoof_checks
@@ -8,6 +9,18 @@ import csv
 import os
 
 app = FastAPI(title="YOLO Human Verification API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:4200"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 # CSV for experiment logs
 CSV_PATH = "data/logs/results.csv"
